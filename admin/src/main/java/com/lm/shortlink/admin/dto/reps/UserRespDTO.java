@@ -1,6 +1,8 @@
 package com.lm.shortlink.admin.dto.reps;
 
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.lm.shortlink.admin.commom.convention.serialize.PhoneDesensitizationSerializer;
 import lombok.Data;
 
 
@@ -29,6 +31,7 @@ public class UserRespDTO {
     /**
      * 手机号
      */
+    @JsonSerialize(using = PhoneDesensitizationSerializer.class)
     private String phone;
 
     /**
