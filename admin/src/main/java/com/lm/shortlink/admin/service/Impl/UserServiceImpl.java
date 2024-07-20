@@ -13,12 +13,16 @@ import com.lm.shortlink.admin.dto.reps.UserRespDTO;
 import com.lm.shortlink.admin.dto.req.UserRegisterReqDTO;
 import com.lm.shortlink.admin.service.UserService;
 import org.redisson.api.RBloomFilter;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import static com.lm.shortlink.admin.commom.enums.UserErrorCodeEnum.USER_NAME_EXIST;
-import static com.lm.shortlink.admin.commom.enums.UserErrorCodeEnum.USER_SAVE_ERROR;
+import static com.lm.shortlink.admin.commom.constant.RedisCacheConstant.LOCK_USER_REGISTER_KEY;
+import static com.lm.shortlink.admin.commom.enums.UserErrorCodeEnum.*;
 
 
 /**
@@ -29,6 +33,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
 
     @Autowired
     private RBloomFilter<String> rBloomFilter;
+    @Autowired
+    private RedissonClient redissonClient;
 
     @Override
     public UserRespDTO getUserByUserName(String username) {
@@ -52,15 +58,26 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
         return !rBloomFilter.contains(username);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
-    public void register(UserRegisterReqDTO userRegisterReqDTO) {
-        if (!hasUsername(userRegisterReqDTO.getUsername())){
+    public void register(UserRegisterReqDTO requestParam) {
+        if (!hasUsername(requestParam.getUsername())) {
             throw new ClientException(USER_NAME_EXIST);
         }
-        int insert = baseMapper.insert(BeanUtil.toBean(userRegisterReqDTO, UserDO.class));
-        if (insert<1){
-            throw new ClientException(USER_SAVE_ERROR);
+        RLock lock = redissonClient.getLock(LOCK_USER_REGISTER_KEY + requestParam.getUsername());
+        if (!lock.tryLock()) {
+            throw new ClientException(USER_NAME_EXIST);
         }
-        rBloomFilter.add(userRegisterReqDTO.getUsername());
+        try {
+            int inserted = baseMapper.insert(BeanUtil.toBean(requestParam, UserDO.class));
+            if (inserted < 1) {
+                throw new ClientException(USER_SAVE_ERROR);
+            }
+            rBloomFilter.add(requestParam.getUsername());
+        } catch (DuplicateKeyException ex) {
+            throw new ClientException(USER_EXIST);
+        } finally {
+            lock.unlock();
+        }
     }
 }
