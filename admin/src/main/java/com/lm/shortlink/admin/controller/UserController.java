@@ -6,11 +6,10 @@ import com.lm.shortlink.admin.commom.convention.result.Result;
 import com.lm.shortlink.admin.commom.convention.result.Results;
 import com.lm.shortlink.admin.dto.reps.UserActualRespDTO;
 import com.lm.shortlink.admin.dto.reps.UserRespDTO;
+import com.lm.shortlink.admin.dto.req.UserRegisterReqDTO;
 import com.lm.shortlink.admin.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 /**
@@ -27,7 +26,7 @@ public class UserController {
      * @param username
      * @return
      */
-    @GetMapping("/api/shortlink/v1/user/{username}")
+    @GetMapping("/api/short-link/v1/user/{username}")
     public Result<UserRespDTO> getUserByUsername(@PathVariable("username") String username) {
         return Results.success(userService.getUserByUserName(username));
     }
@@ -38,6 +37,30 @@ public class UserController {
     public Result<UserActualRespDTO> getActualUserByUsername(@PathVariable("username") String username) {
         return Results.success(BeanUtil.toBean(userService.getUserByUserName(username), UserActualRespDTO.class));
     }
+
+
+    /**
+     * 查询用户名是否存在 是否可用
+     * @param username
+     * @return
+     */
+    @GetMapping("/api/short-link/admin/v1/user/has-username")
+    public Result<Boolean> hasUsername(@RequestParam("username") String username){
+        return Results.success(userService.hasUsername(username));
+    }
+
+
+    /**
+     * 用户注册
+     * @param requestParam
+     * @return
+     */
+    @PostMapping("/api/short-link/admin/v1/user")
+    public Result<Void> register(@RequestBody UserRegisterReqDTO requestParam) {
+        userService.register(requestParam);
+        return Results.success();
+    }
+
 
 
 }
