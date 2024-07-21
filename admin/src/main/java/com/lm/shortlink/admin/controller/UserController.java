@@ -5,8 +5,11 @@ import cn.hutool.core.bean.BeanUtil;
 import com.lm.shortlink.admin.commom.convention.result.Result;
 import com.lm.shortlink.admin.commom.convention.result.Results;
 import com.lm.shortlink.admin.dto.reps.UserActualRespDTO;
+import com.lm.shortlink.admin.dto.reps.UserLoginRespDTO;
 import com.lm.shortlink.admin.dto.reps.UserRespDTO;
+import com.lm.shortlink.admin.dto.req.UserLoginReqDTO;
 import com.lm.shortlink.admin.dto.req.UserRegisterReqDTO;
+import com.lm.shortlink.admin.dto.req.UserUpdateReqDTO;
 import com.lm.shortlink.admin.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -59,6 +62,25 @@ public class UserController {
     public Result<Void> register(@RequestBody UserRegisterReqDTO requestParam) {
         userService.register(requestParam);
         return Results.success();
+    }
+
+
+    @PutMapping("/api/short-link/admin/v1/user")
+    public Result<Void> update(@RequestBody UserUpdateReqDTO userUpdateReqDTO){
+
+        userService.update(userUpdateReqDTO);
+        return Results.success();
+    }
+
+    @PostMapping("/api/short-link/admin/v1/user/login")
+    public Result<UserLoginRespDTO> login(@RequestBody UserLoginReqDTO userLoginReqDTO){
+        UserLoginRespDTO result = userService.login(userLoginReqDTO);
+        return Results.success(result);
+    }
+
+    @GetMapping("/api/short-link/admin/v1/user/check-login")
+    public Result<Boolean> checkLogin(@RequestParam("username") String username, @RequestParam("token") String token) {
+        return Results.success(userService.checkLogin(username, token));
     }
 
 
