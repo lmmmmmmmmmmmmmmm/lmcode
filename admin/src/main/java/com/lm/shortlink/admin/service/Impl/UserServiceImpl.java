@@ -38,15 +38,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
 
     @Override
     public UserRespDTO getUserByUserName(String username) {
-
         LambdaQueryWrapper<UserDO> queryWrapper = Wrappers.lambdaQuery(UserDO.class)
                 .eq(UserDO::getUsername, username);
         UserDO userDO = baseMapper.selectOne(queryWrapper);
         if (userDO == null) {
             throw new ServiceException(UserErrorCodeEnum.USER_NULL);
         }
-        UserRespDTO result=new UserRespDTO();
-        BeanUtils.copyProperties(userDO,result);
+        UserRespDTO result = new UserRespDTO();
+        BeanUtils.copyProperties(userDO, result);
         return result;
     }
 
@@ -54,7 +53,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
 
     @Override
     public Boolean hasUsername(String username) {
-
         return !rBloomFilter.contains(username);
     }
 
