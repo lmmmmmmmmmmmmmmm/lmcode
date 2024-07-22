@@ -1,5 +1,6 @@
 package com.lm.shortlink.admin.service.Impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -48,7 +49,14 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, GroupDO> implemen
 
     @Override
     public List<ShortLinkGroupRespDTO> listGroup() {
-        return null;
+        //todo 获取用户名
+        LambdaQueryWrapper<GroupDO> queryWrapper = Wrappers.lambdaQuery(GroupDO.class)
+                .isNull(GroupDO::getUsername)
+                .eq(GroupDO::getDelFlag, 0)
+                .orderByDesc(GroupDO::getSortOrder, GroupDO::getCreateTime);
+        List<GroupDO> groupDOS = baseMapper.selectList(queryWrapper);
+
+        return BeanUtil.copyToList(groupDOS,ShortLinkGroupRespDTO.class);
     }
 
     @Override
