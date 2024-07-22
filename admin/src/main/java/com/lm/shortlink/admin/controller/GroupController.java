@@ -35,13 +35,19 @@ public class GroupController {
     }
 
     @PutMapping("/api/short-link/admin/v1/group")
-    public Result<Void> update(ShortLinkGroupUpdateReqDTO shortLinkGroupUpdateReqDTO){
+    public Result<Void> update(@RequestBody ShortLinkGroupUpdateReqDTO shortLinkGroupUpdateReqDTO){
 
         groupService.updateGroup(shortLinkGroupUpdateReqDTO);
         return Results.success();
-
-
     }
+
+    @DeleteMapping("/api/short-link/admin/v1/group")
+    public Result<Void> delete(@RequestParam String gid){
+        groupService.deleteGroup(gid);
+        return Results.success();
+    }
+
+
 
 
 }
