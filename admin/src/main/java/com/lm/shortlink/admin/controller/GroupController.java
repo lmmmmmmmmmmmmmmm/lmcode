@@ -4,6 +4,7 @@ import com.lm.shortlink.admin.commom.convention.result.Result;
 import com.lm.shortlink.admin.commom.convention.result.Results;
 import com.lm.shortlink.admin.dto.reps.ShortLinkGroupRespDTO;
 import com.lm.shortlink.admin.dto.req.ShortLinkGroupSaveReqDTO;
+import com.lm.shortlink.admin.dto.req.ShortLinkGroupSortReqDTO;
 import com.lm.shortlink.admin.dto.req.ShortLinkGroupUpdateReqDTO;
 import com.lm.shortlink.admin.service.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,12 @@ public class GroupController {
     @DeleteMapping("/api/short-link/admin/v1/group")
     public Result<Void> delete(@RequestParam String gid){
         groupService.deleteGroup(gid);
+        return Results.success();
+    }
+
+    @PostMapping ("/api/short-link/admin/v1/group/sort")
+    public Result<Void> delete(@RequestBody List<ShortLinkGroupSortReqDTO> shortLinkGroupSortReqDTO){
+        groupService.sortGroup(shortLinkGroupSortReqDTO);
         return Results.success();
     }
 
