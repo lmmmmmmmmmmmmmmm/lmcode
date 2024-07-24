@@ -15,27 +15,24 @@
  * limitations under the License.
  */
 
-package com.lm.shortlink.project.common.enums;
+package com.lm.shortlink.admin.remote.dto.req;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import lombok.Data;
 
 /**
- * 有效期类型
+ * 短链接分页请求参数
  */
-@RequiredArgsConstructor
-public enum VailDateTypeEnum {
+@Data
+public class ShortLinkPageReqDTO extends Page {
 
     /**
-     * 永久有效期
+     * 分组标识
      */
-    PERMANENT(0),
+    private String gid;
 
     /**
-     * 自定义有效期
+     * 排序标识
      */
-    CUSTOM(1);
-
-    @Getter
-    private final int type;
+    private String orderTag;
 }

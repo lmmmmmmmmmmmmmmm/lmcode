@@ -15,27 +15,52 @@
  * limitations under the License.
  */
 
-package com.lm.shortlink.project.common.enums;
+package com.lm.shortlink.admin.remote.dto.req;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
+
+import java.util.Date;
 
 /**
- * 有效期类型
+ * 短链接创建请求对象
  */
-@RequiredArgsConstructor
-public enum VailDateTypeEnum {
+@Data
+public class ShortLinkCreateReqDTO {
 
     /**
-     * 永久有效期
+     * 域名
      */
-    PERMANENT(0),
+    private String domain;
 
     /**
-     * 自定义有效期
+     * 原始链接
      */
-    CUSTOM(1);
+    private String originUrl;
 
-    @Getter
-    private final int type;
+    /**
+     * 分组标识
+     */
+    private String gid;
+
+    /**
+     * 创建类型 0：接口创建 1：控制台创建
+     */
+    private Integer createdType;
+
+    /**
+     * 有效期类型 0：永久有效 1：自定义
+     */
+    private Integer validDateType;
+
+    /**
+     * 有效期
+     */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date validDate;
+
+    /**
+     * 描述
+     */
+    private String describe;
 }

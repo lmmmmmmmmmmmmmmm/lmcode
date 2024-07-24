@@ -15,27 +15,34 @@
  * limitations under the License.
  */
 
-package com.lm.shortlink.project.common.enums;
+package com.lm.shortlink.admin.remote.dto.reps;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
- * 有效期类型
+ * 短链接创建响应对象
  */
-@RequiredArgsConstructor
-public enum VailDateTypeEnum {
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class ShortLinkCreateRespDTO {
 
     /**
-     * 永久有效期
+     * 分组信息
      */
-    PERMANENT(0),
+    private String gid;
 
     /**
-     * 自定义有效期
+     * 原始链接
      */
-    CUSTOM(1);
+    private String originUrl;
 
-    @Getter
-    private final int type;
+    /**
+     * 短链接
+     */
+    private String fullShortUrl;
 }

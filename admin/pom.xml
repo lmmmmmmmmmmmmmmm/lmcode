@@ -12,9 +12,6 @@
     <artifactId>shortlink-admin</artifactId>
 
 
-
-
-
     <dependencies>
 
         <dependency>
@@ -35,12 +32,11 @@
        <dependency>
            <groupId>org.springframework.boot</groupId>
                    <artifactId>spring-boot-starter-web</artifactId>
-           <version>3.3.1</version>
        </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.30</version>
+
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -71,5 +67,22 @@
 
 
     </dependencies>
+
+    <build>
+        <finalName>${project.artifactId}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
