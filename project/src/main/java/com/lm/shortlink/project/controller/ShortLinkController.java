@@ -1,22 +1,18 @@
 package com.lm.shortlink.project.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.lm.shortlink.project.common.convention.result.Result;
 import com.lm.shortlink.project.common.convention.result.Results;
 import com.lm.shortlink.project.dto.req.ShortLinkCreateReqDTO;
 import com.lm.shortlink.project.dto.req.ShortLinkPageReqDTO;
 import com.lm.shortlink.project.dto.resp.ShortLinkCreateRespDTO;
+import com.lm.shortlink.project.dto.resp.ShortLinkGroupCountQueryRespDTO;
 import com.lm.shortlink.project.dto.resp.ShortLinkPageRespDTO;
 import com.lm.shortlink.project.service.ShortLinkService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
-
+import java.util.List;
 
 
 @RestController
@@ -43,18 +39,12 @@ public class ShortLinkController {
 
 
     /**
-     * 有效期
+     * 查询短链接分组内数量
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date validDate;
-
-    /**
-     * 有效期
-     */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date createTime;
-
-
+    @GetMapping("/api/short-link/v1/count")
+    public Result<List<ShortLinkGroupCountQueryRespDTO>> listGroupShortLinkCount(@RequestParam("requestParam") List<String> requestParam) {
+        return Results.success(shortLinkService.listGroupShortLinkCount(requestParam));
+    }
 
 
 
