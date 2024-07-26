@@ -17,6 +17,7 @@ import com.lm.shortlink.admin.dto.reps.UserRespDTO;
 import com.lm.shortlink.admin.dto.req.UserLoginReqDTO;
 import com.lm.shortlink.admin.dto.req.UserRegisterReqDTO;
 import com.lm.shortlink.admin.dto.req.UserUpdateReqDTO;
+import com.lm.shortlink.admin.service.GroupService;
 import com.lm.shortlink.admin.service.UserService;
 import org.redisson.api.RBloomFilter;
 import org.redisson.api.RLock;
@@ -47,6 +48,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
     private RedissonClient redissonClient;
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
+    @Autowired
+    private GroupService groupService;
 
     @Override
     public UserRespDTO getUserByUserName(String username) {
@@ -84,6 +87,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
                 throw new ClientException(USER_SAVE_ERROR);
             }
             rBloomFilter.add(requestParam.getUsername());
+            groupService.saveGroup(requestParam.getUsername(),"default");
         } catch (DuplicateKeyException ex) {
             throw new ClientException(USER_EXIST);
         } finally {

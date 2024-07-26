@@ -35,18 +35,8 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, GroupDO> implemen
 
     @Override
     public void saveGroup(String groupName) {
-        String gid;
-        do {
-            gid=RandomGenerator.generateRandom();
-        }while(!hasGid(gid));
-        GroupDO groupDO=GroupDO.builder()
-                .gid(gid)
-                .sortOrder(0)
-                .username(UserContext.getUsername())
-                .name(groupName)
-                .build();
+        saveGroup(UserContext.getUsername(),groupName );
 
-            baseMapper.insert(groupDO);
     }
 
     private boolean hasGid(String gid) {
@@ -60,6 +50,18 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, GroupDO> implemen
 
     @Override
     public void saveGroup(String username, String groupName) {
+        String gid;
+        do {
+            gid= RandomGenerator.generateRandom();
+        }while(!hasGid(gid));
+        GroupDO groupDO=GroupDO.builder()
+                .gid(gid)
+                .sortOrder(0)
+                .username(username)
+                .name(groupName)
+                .build();
+
+        baseMapper.insert(groupDO);
 
     }
 

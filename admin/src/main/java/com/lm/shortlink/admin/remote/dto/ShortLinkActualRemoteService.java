@@ -10,6 +10,7 @@ import com.lm.shortlink.admin.remote.dto.reps.ShortLinkGroupCountQueryRespDTO;
 import com.lm.shortlink.admin.remote.dto.reps.ShortLinkPageRespDTO;
 import com.lm.shortlink.admin.remote.dto.req.ShortLinkCreateReqDTO;
 import com.lm.shortlink.admin.remote.dto.req.ShortLinkPageReqDTO;
+import com.lm.shortlink.admin.remote.dto.req.ShortLinkUpdateReqDTO;
 
 import java.util.HashMap;
 import java.util.List;
@@ -59,6 +60,15 @@ public interface ShortLinkActualRemoteService {
         String resultPageStr= HttpUtil.get("http://127.0.0.1:8001/api/short-link/v1/count",requestMap);
         return JSON.parseObject(resultPageStr, new TypeReference<>() {
         });
+    }
+
+    /**
+     * 修改短链接
+     * @param requestParam
+     */
+    default void updateShortLink(ShortLinkUpdateReqDTO requestParam){
+        HttpUtil.post("http://127.0.0.1:8001/api/short-link/v1/update", JSON.toJSONString(requestParam));
+
     }
 
 
