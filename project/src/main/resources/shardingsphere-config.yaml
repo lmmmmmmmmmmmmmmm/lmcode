@@ -16,16 +16,30 @@ rules:
           standard:
             shardingColumn: gid
             shardingAlgorithmName: link_table_hash_mod
-    # 分片算法
+      t_link_goto:
+        actualDataNodes: ds_0.t_link_goto_${0..15}
+        tableStrategy:
+          standard:
+            shardingColumn: full_short_url
+            shardingAlgorithmName: link_goto_table_hash_mod
+      t_group:
+        actualDataNodes: ds_0.t_group_${0..15}
+        tableStrategy:
+          standard:
+            shardingColumn: username
+            shardingAlgorithmName: group_table_hash_mod
     shardingAlgorithms:
-      # 数据表分片算法
       link_table_hash_mod:
-        # 根据分片键 Hash 分片
         type: HASH_MOD
-        # 分片数量
         props:
           sharding-count: 16
-
-# 展现逻辑 SQL & 真实 SQL
+      link_goto_table_hash_mod:
+        type: HASH_MOD
+        props:
+          sharding-count: 16
+      group_table_hash_mod:
+        type: HASH_MOD
+        props:
+          sharding-count: 16
 props:
   sql-show: true
