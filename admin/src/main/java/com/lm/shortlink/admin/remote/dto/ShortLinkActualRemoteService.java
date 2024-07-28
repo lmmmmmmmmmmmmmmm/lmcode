@@ -11,7 +11,10 @@ import com.lm.shortlink.admin.remote.dto.reps.ShortLinkPageRespDTO;
 import com.lm.shortlink.admin.remote.dto.req.ShortLinkCreateReqDTO;
 import com.lm.shortlink.admin.remote.dto.req.ShortLinkPageReqDTO;
 import com.lm.shortlink.admin.remote.dto.req.ShortLinkUpdateReqDTO;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -68,6 +71,20 @@ public interface ShortLinkActualRemoteService {
      */
     default void updateShortLink(ShortLinkUpdateReqDTO requestParam){
         HttpUtil.post("http://127.0.0.1:8001/api/short-link/v1/update", JSON.toJSONString(requestParam));
+
+    }
+
+
+    /**
+     * 根据url获取标题
+     * @param url
+     * @return
+     */
+    default Result<String> getTitleByUrl(@RequestParam("url") String url){
+        String encodedUrl = URLEncoder.encode(url, StandardCharsets.UTF_8); // 对url进行URL编码
+        String requestUrl = "http://127.0.0.1:8001/api/short-link/v1/title?url=" + encodedUrl;
+        String resultBodyStr = HttpUtil.get(requestUrl); // 使用构造好的完整URL进行请求
+        return JSON.parseObject(resultBodyStr, new TypeReference<>() {});
 
     }
 

@@ -15,18 +15,22 @@
  * limitations under the License.
  */
 
-package com.lm.shortlink.project.service;
+package com.lm.shortlink.project.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
- * URL 标题接口层
+ * 短链接不存在跳转控制器
  */
-public interface UrlTitleService {
+@Controller
+public class ShortLinkNotfoundController {
 
     /**
-     * 根据 URL 获取标题
-     *
-     * @param url 目标网站地址
-     * @return 网站标题
+     * 短链接不存在跳转页面
      */
-    String getTitleByUrl(String url);
+    @RequestMapping("/page/notfound")
+    public String notfound() {
+        return "notfound";
+    }
 }
