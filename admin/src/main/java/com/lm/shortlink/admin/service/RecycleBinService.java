@@ -15,26 +15,24 @@
  * limitations under the License.
  */
 
-package com.lm.shortlink.project.dto.req;
-
+package com.lm.shortlink.admin.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.lm.shortlink.project.dao.entity.ShortLinkDO;
-import lombok.Data;
+import com.lm.shortlink.admin.commom.convention.result.Result;
+import com.lm.shortlink.admin.remote.dto.reps.ShortLinkPageRespDTO;
+import com.lm.shortlink.admin.remote.dto.req.ShortLinkRecycleBinPageReqDTO;
+
 
 /**
- * 短链接分页请求参数
+ * URL 回收站接口层
  */
-@Data
-public class ShortLinkPageReqDTO extends Page<ShortLinkDO> {
+public interface RecycleBinService {
 
     /**
-     * 分组标识
+     * 分页查询回收站短链接
+     *
+     * @param requestParam 请求参数
+     * @return 返回参数包装
      */
-    private String gid;
-
-    /**
-     * 排序标识
-     */
-    private String orderTag;
+    Result<Page<ShortLinkPageRespDTO>> pageRecycleBinShortLink(ShortLinkRecycleBinPageReqDTO requestParam);
 }

@@ -20,16 +20,12 @@ package com.lm.shortlink.project.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.lm.shortlink.project.dao.entity.ShortLinkDO;
-import com.lm.shortlink.project.dto.req.RecycleBinRecoverReqDTO;
-import com.lm.shortlink.project.dto.req.RecycleBinRemoveReqDTO;
-import com.lm.shortlink.project.dto.req.RecycleBinSaveReqDTO;
-import com.lm.shortlink.project.dto.req.ShortLinkRecycleBinPageReqDTO;
+import com.lm.shortlink.project.dto.req.*;
 import com.lm.shortlink.project.dto.resp.ShortLinkPageRespDTO;
 
 
 /**
  * 回收站管理接口层
- * 公众号：马丁玩编程，回复：加群，添加马哥微信（备注：link）获取项目资料
  */
 public interface RecycleBinService extends IService<ShortLinkDO> {
 

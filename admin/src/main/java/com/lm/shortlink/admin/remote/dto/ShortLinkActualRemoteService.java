@@ -4,7 +4,11 @@ import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.TypeReference;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lm.shortlink.admin.commom.convention.result.Result;
+import com.lm.shortlink.admin.dto.req.RecycleBinRecoverReqDTO;
+import com.lm.shortlink.admin.dto.req.RecycleBinRemoveReqDTO;
+import com.lm.shortlink.admin.dto.req.RecycleBinSaveReqDTO;
 import com.lm.shortlink.admin.remote.dto.reps.ShortLinkCreateRespDTO;
 import com.lm.shortlink.admin.remote.dto.reps.ShortLinkGroupCountQueryRespDTO;
 import com.lm.shortlink.admin.remote.dto.reps.ShortLinkPageRespDTO;
@@ -85,9 +89,55 @@ public interface ShortLinkActualRemoteService {
         String requestUrl = "http://127.0.0.1:8001/api/short-link/v1/title?url=" + encodedUrl;
         String resultBodyStr = HttpUtil.get(requestUrl); // 使用构造好的完整URL进行请求
         return JSON.parseObject(resultBodyStr, new TypeReference<>() {});
+    }
+
+
+
+
+
+
+    /**
+     * 保存回收站
+     */
+    default void saveRecycleBin(RecycleBinSaveReqDTO requestParam){
+        HttpUtil.post("http://127.0.0.1:8001/api/short-link/v1/recycle-bin/save", JSON.toJSONString(requestParam));
+
+    }
+
+
+    /**
+     * 恢复短链接
+     */
+    default void recoverRecycleBin(RecycleBinRecoverReqDTO requestParam){
+        HttpUtil.post("http://127.0.0.1:8001/api/short-link/v1/recycle-bin/recover", JSON.toJSONString(requestParam));
 
     }
 
 
 
+    /**
+     * 移除短链接
+     */
+    default void removeRecycleBin(RecycleBinRemoveReqDTO requestParam){
+        HttpUtil.post("http://127.0.0.1:8001/api/short-link/v1/recycle-bin/remove", JSON.toJSONString(requestParam));
+    }
+
+
+
+    /**
+     * 回收站分页查询短链接
+     * @param
+     * @return
+     */
+    default Result<Page<ShortLinkPageRespDTO>> pageRecycleBinShortLink(@RequestParam("gidList") List<String> gidList,
+                                                               @RequestParam("current") Long current,
+                                                               @RequestParam("size") Long size){
+        Map<String ,Object> requestMap=new HashMap<>();
+        requestMap.put("gidList",gidList);
+        requestMap.put("current",current);
+        requestMap.put("size",size);
+        String resultPageStr= HttpUtil.get("http://127.0.0.1:8001/api/short-link/v1/recycle-bin/page",requestMap);
+        return JSON.parseObject(resultPageStr, new TypeReference<>() {
+        });
+    }
 }
