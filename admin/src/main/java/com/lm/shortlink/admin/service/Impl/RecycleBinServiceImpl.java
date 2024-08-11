@@ -26,7 +26,7 @@ import com.lm.shortlink.admin.commom.convention.exception.ServiceException;
 import com.lm.shortlink.admin.commom.convention.result.Result;
 import com.lm.shortlink.admin.dao.entity.GroupDO;
 import com.lm.shortlink.admin.dao.mapper.GroupMapper;
-import com.lm.shortlink.admin.remote.dto.ShortLinkActualRemoteService;
+import com.lm.shortlink.admin.remote.ShortLinkActualRemoteService;
 import com.lm.shortlink.admin.remote.dto.reps.ShortLinkPageRespDTO;
 import com.lm.shortlink.admin.remote.dto.req.ShortLinkRecycleBinPageReqDTO;
 import com.lm.shortlink.admin.service.RecycleBinService;

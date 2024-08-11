@@ -98,7 +98,10 @@ public interface ShortLinkService extends IService<ShortLinkDO> {
     /**
      * 短链接统计
      *
-     * @param shortLinkStatsRecord 短链接统计实体参数
+     * @param
      */
-    void shortLinkStats(ShortLinkStatsRecordDTO shortLinkStatsRecord);
+//    void shortLinkStats(ShortLinkStatsRecordDTO shortLinkStatsRecord);
+
+
+      void shortLinkStats(String fullShortUrl, String gid, ShortLinkStatsRecordDTO statsRecord);
 }

@@ -23,7 +23,7 @@ import com.lm.shortlink.admin.commom.convention.result.Results;
 import com.lm.shortlink.admin.dto.req.RecycleBinRecoverReqDTO;
 import com.lm.shortlink.admin.dto.req.RecycleBinRemoveReqDTO;
 import com.lm.shortlink.admin.dto.req.RecycleBinSaveReqDTO;
-import com.lm.shortlink.admin.remote.dto.ShortLinkActualRemoteService;
+import com.lm.shortlink.admin.remote.ShortLinkActualRemoteService;
 import com.lm.shortlink.admin.remote.dto.reps.ShortLinkPageRespDTO;
 import com.lm.shortlink.admin.remote.dto.req.ShortLinkRecycleBinPageReqDTO;
 import com.lm.shortlink.admin.service.RecycleBinService;

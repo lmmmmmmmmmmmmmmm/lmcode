@@ -18,7 +18,7 @@
 package com.lm.shortlink.admin.controller;
 
 import com.lm.shortlink.admin.commom.convention.result.Result;
-import com.lm.shortlink.admin.remote.dto.ShortLinkActualRemoteService;
+import com.lm.shortlink.admin.remote.ShortLinkActualRemoteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;

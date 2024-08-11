@@ -48,7 +48,7 @@ public class GlobalExceptionHandler {
      */
     @SneakyThrows
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
-    public com.lm.shortlink.project.common.convention.result.Result<Void> validExceptionHandler(HttpServletRequest request, MethodArgumentNotValidException ex) {
+    public Result validExceptionHandler(HttpServletRequest request, MethodArgumentNotValidException ex) {
         BindingResult bindingResult = ex.getBindingResult();
         FieldError firstFieldError = CollectionUtil.getFirst(bindingResult.getFieldErrors());
         String exceptionStr = Optional.ofNullable(firstFieldError)
@@ -62,7 +62,7 @@ public class GlobalExceptionHandler {
      * 拦截应用内抛出的异常
      */
     @ExceptionHandler(value = {AbstractException.class})
-    public com.lm.shortlink.project.common.convention.result.Result<Void> abstractException(HttpServletRequest request, AbstractException ex) {
+    public Result abstractException(HttpServletRequest request, AbstractException ex) {
         if (ex.getCause() != null) {
             log.error("[{}] {} [ex] {}", request.getMethod(), request.getRequestURL().toString(), ex.toString(), ex.getCause());
             return Results.failure(ex);
@@ -75,7 +75,7 @@ public class GlobalExceptionHandler {
      * 拦截未捕获异常
      */
     @ExceptionHandler(value = Throwable.class)
-    public Result<Void> defaultErrorHandler(HttpServletRequest request, Throwable throwable) {
+    public Result defaultErrorHandler(HttpServletRequest request, Throwable throwable) {
         log.error("[{}] {} ", request.getMethod(), getUrl(request), throwable);
         return Results.failure();
     }

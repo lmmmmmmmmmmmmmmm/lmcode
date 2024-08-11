@@ -26,7 +26,6 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 /**
  * 用户信息传输拦截器
- * 公众号：马丁玩编程，回复：加群，添加马哥微信（备注：link）获取项目资料
  */
 @Component
 public class UserTransmitInterceptor implements HandlerInterceptor {

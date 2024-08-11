@@ -1,14 +1,18 @@
 package com.lm.shortlink.project.controller;
 
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lm.shortlink.project.common.convention.result.Result;
 import com.lm.shortlink.project.common.convention.result.Results;
+import com.lm.shortlink.project.dto.req.ShortLinkBatchCreateReqDTO;
 import com.lm.shortlink.project.dto.req.ShortLinkCreateReqDTO;
 import com.lm.shortlink.project.dto.req.ShortLinkPageReqDTO;
 import com.lm.shortlink.project.dto.req.ShortLinkUpdateReqDTO;
+import com.lm.shortlink.project.dto.resp.ShortLinkBatchCreateRespDTO;
 import com.lm.shortlink.project.dto.resp.ShortLinkCreateRespDTO;
 import com.lm.shortlink.project.dto.resp.ShortLinkGroupCountQueryRespDTO;
 import com.lm.shortlink.project.dto.resp.ShortLinkPageRespDTO;
+import com.lm.shortlink.project.handle.CustomBlockHandler;
 import com.lm.shortlink.project.service.ShortLinkService;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
@@ -34,9 +38,31 @@ public class ShortLinkController {
     }
 
     /**
+     * 通过分布式锁创建短链接
+     */
+    @PostMapping("/api/short-link/v1/create/by-lock")
+    public Result<ShortLinkCreateRespDTO> createShortLinkByLock(@RequestBody ShortLinkCreateReqDTO requestParam) {
+        return Results.success(shortLinkService.createShortLinkByLock(requestParam));
+    }
+
+    /**
+     * 批量创建短链接
+     */
+    @PostMapping("/api/short-link/v1/create/batch")
+    public Result<ShortLinkBatchCreateRespDTO> batchCreateShortLink(@RequestBody ShortLinkBatchCreateReqDTO requestParam) {
+        return Results.success(shortLinkService.batchCreateShortLink(requestParam));
+    }
+
+
+    /**
      * 创建短链接
      */
     @PostMapping("/api/short-link/v1/create")
+    @SentinelResource(
+            value = "create_short-link",
+            blockHandler = "createShortLinkBlockHandlerMethod",
+            blockHandlerClass = CustomBlockHandler.class
+    )
     public Result<ShortLinkCreateRespDTO> createShortLink(@RequestBody ShortLinkCreateReqDTO requestParam) {
         return Results.success(shortLinkService.createShortLink(requestParam));
     }
