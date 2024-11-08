@@ -4,8 +4,8 @@ import { createStore } from 'vuex'
 const store = createStore({
   state() {
     return {
-      // domain: 'nurl.ink'
-      domain: 's.nageoffer.com'
+      domain: 'nurl.ink'
+      // domain: 's.nageoffer.com'
     }
   }
 })

@@ -1,3 +1,20 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.lm.shortlink.project.mq.consumer;
 
 /*
@@ -39,7 +56,7 @@ import static com.lm.shortlink.project.common.constant.RedisKeyConstant.DELAY_QU
 /**
  * 延迟记录短链接统计组件
  */
-
+@Deprecated
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -64,7 +81,7 @@ public class DelayShortLinkStatsConsumer implements InitializingBean {
                         try {
                             ShortLinkStatsRecordDTO statsRecord = delayedQueue.poll();
                             if (statsRecord != null) {
-                                if (!messageQueueIdempotentHandler.isMessageProcessed(statsRecord.getKeys())) {
+                                if (messageQueueIdempotentHandler.isMessageBeingConsumed(statsRecord.getKeys())) {
                                     // 判断当前的这个消息流程是否执行完成
                                     if (messageQueueIdempotentHandler.isAccomplish(statsRecord.getKeys())) {
                                         return;
@@ -72,7 +89,7 @@ public class DelayShortLinkStatsConsumer implements InitializingBean {
                                     throw new ServiceException("消息未完成流程，需要消息队列重试");
                                 }
                                 try {
-                                    shortLinkService.shortLinkStats(null, null, statsRecord);
+                                    shortLinkService.shortLinkStats(null,null,statsRecord);
                                 } catch (Throwable ex) {
                                     messageQueueIdempotentHandler.delMessageProcessed(statsRecord.getKeys());
                                     log.error("延迟记录短链接监控消费异常", ex);
@@ -89,6 +106,6 @@ public class DelayShortLinkStatsConsumer implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        onMessage();
+        // onMessage();
     }
 }

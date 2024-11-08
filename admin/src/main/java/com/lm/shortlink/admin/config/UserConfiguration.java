@@ -35,9 +35,9 @@ public class UserConfiguration {
      * 用户信息传递过滤器
      */
     @Bean
-    public FilterRegistrationBean<UserTransmitFilter> globalUserTransmitFilter(StringRedisTemplate stringRedisTemplate) {
+    public FilterRegistrationBean<UserTransmitFilter> globalUserTransmitFilter() {
         FilterRegistrationBean<UserTransmitFilter> registration = new FilterRegistrationBean<>();
-        registration.setFilter(new UserTransmitFilter(stringRedisTemplate));
+        registration.setFilter(new UserTransmitFilter());
         registration.addUrlPatterns("/*");
         registration.setOrder(0);
         return registration;
@@ -49,8 +49,8 @@ public class UserConfiguration {
     @Bean
     @ConditionalOnProperty(name = "short-link.flow-limit.enable", havingValue = "true")
     public FilterRegistrationBean<UserFlowRiskControlFilter> globalUserFlowRiskControlFilter(
-            StringRedisTemplate stringRedisTemplate,
-            UserFlowRiskControlConfiguration userFlowRiskControlConfiguration) {
+                                                                                             StringRedisTemplate stringRedisTemplate,
+                                                                                             UserFlowRiskControlConfiguration userFlowRiskControlConfiguration) {
         FilterRegistrationBean<UserFlowRiskControlFilter> registration = new FilterRegistrationBean<>();
         registration.setFilter(new UserFlowRiskControlFilter(stringRedisTemplate, userFlowRiskControlConfiguration));
         registration.addUrlPatterns("/*");

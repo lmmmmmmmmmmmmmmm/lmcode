@@ -1,3 +1,20 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.lm.shortlink.admin.service.Impl;
 
 import cn.hutool.core.bean.BeanUtil;
@@ -45,27 +62,24 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, GroupDO> implemen
     private final RBloomFilter<String> gidRegisterCachePenetrationBloomFilter;
     private final GroupUniqueMapper groupUniqueMapper;
     private final RedissonClient redissonClient;
-    ShortLinkActualRemoteService shortLinkActualRemoteService=new ShortLinkActualRemoteService() {};
+    private final ShortLinkActualRemoteService shortLinkActualRemoteService;
 
     @Value("${short-link.group.max-num}")
     private Integer groupMaxNum;
 
-
-
-
     @Override
     public void saveGroup(String groupName) {
-        saveGroup(UserContext.getUsername(),groupName );
+        saveGroup(UserContext.getUsername(), groupName);
 
     }
 
     private boolean hasGid(String gid) {
         LambdaQueryWrapper<GroupDO> queryWrapper = Wrappers.lambdaQuery(GroupDO.class)
                 .eq(GroupDO::getGid, gid)
-                //todo 设置用户名
-                .eq(GroupDO::getUsername,  UserContext.getUsername());
+                // todo 设置用户名
+                .eq(GroupDO::getUsername, UserContext.getUsername());
         GroupDO groupDO = baseMapper.selectOne(queryWrapper);
-        return groupDO==null;
+        return groupDO == null;
     }
 
     @Override
@@ -163,7 +177,6 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, GroupDO> implemen
         });
     }
 
-
     private String saveGroupUniqueReturnGid() {
         String gid = RandomGenerator.generateRandom();
         if (!gidRegisterCachePenetrationBloomFilter.contains(gid)) {
@@ -179,5 +192,3 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, GroupDO> implemen
         return gid;
     }
 }
-
-

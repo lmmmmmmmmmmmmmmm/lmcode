@@ -90,7 +90,6 @@ public class ShortLinkPageRespDTO {
      */
     private String favicon;
 
-
     /**
      * 历史PV
      */

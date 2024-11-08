@@ -42,7 +42,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RecycleBinServiceImpl implements RecycleBinService {
 
-    ShortLinkActualRemoteService shortLinkActualRemoteService=new ShortLinkActualRemoteService() {};
+    private final ShortLinkActualRemoteService shortLinkActualRemoteService;
 
     private final GroupMapper groupMapper;
 

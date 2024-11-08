@@ -1,6 +1,8 @@
 server:
   port: 8001
 spring:
+  application:
+    name: short-link-project-lm
   datasource:
     # ShardingSphere 对 Driver 自定义，实现分库分表等隐藏逻辑
     driver-class-name: org.apache.shardingsphere.driver.ShardingSphereDriver
@@ -10,17 +12,21 @@ spring:
     redis:
       host: 127.0.0.1
       port: 6379
-      channel-topic:
-        short-link-stats: 'short_link:stats-stream'
-        short-link-stats-group: 'short_link:stats-stream:only-group'
   mvc:
     view:
       prefix: /templates/
       suffix: .html
+  cloud:
+    nacos:
+      discovery:
+        server-addr: common-nacos-dev.magestack.cn:8848
+
+
+
 short-link:
   stats:
     locale:
-      amap-key: 5d62fa66d21dc042c845ddb80f286536
+      amap-key:
   domain:
     default: nurl.ink:8001
   goto-domain:
@@ -36,3 +42,14 @@ mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   mapper-locations: classpath:mapper/*.xml
+
+rocketmq:
+  name-server: common-rocketmq-dev.magestack.cn:9876
+  producer:
+    group: short-link_project-service_stats-save_pg_lm
+    topic: short-link_project-service_topic_lm
+    send-message-timeout: 2000
+    retry-times-when-send-failed: 1
+    retry-times-when-send-async-failed: 1
+  consumer:
+    group: short-link_project-service_stats-save_cg_lm

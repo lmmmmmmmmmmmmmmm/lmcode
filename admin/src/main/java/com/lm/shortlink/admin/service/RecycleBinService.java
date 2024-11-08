@@ -22,7 +22,6 @@ import com.lm.shortlink.admin.commom.convention.result.Result;
 import com.lm.shortlink.admin.remote.dto.reps.ShortLinkPageRespDTO;
 import com.lm.shortlink.admin.remote.dto.req.ShortLinkRecycleBinPageReqDTO;
 
-
 /**
  * URL 回收站接口层
  */

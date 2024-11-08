@@ -1,5 +1,21 @@
-package com.lm.shortlink.admin.controller;
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
+package com.lm.shortlink.admin.controller;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.lm.shortlink.admin.commom.convention.result.Result;
@@ -13,7 +29,6 @@ import com.lm.shortlink.admin.dto.req.UserUpdateReqDTO;
 import com.lm.shortlink.admin.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 
 /**
  *
@@ -41,17 +56,15 @@ public class UserController {
         return Results.success(BeanUtil.toBean(userService.getUserByUsername(username), UserActualRespDTO.class));
     }
 
-
     /**
      * 查询用户名是否存在 是否可用
      * @param username
      * @return
      */
     @GetMapping("/api/short-link/admin/v1/user/has-username")
-    public Result<Boolean> hasUsername(@RequestParam("username") String username){
+    public Result<Boolean> hasUsername(@RequestParam("username") String username) {
         return Results.success(userService.hasUsername(username));
     }
-
 
     /**
      * 用户注册
@@ -64,15 +77,14 @@ public class UserController {
         return Results.success();
     }
 
-
     @PutMapping("/api/short-link/admin/v1/user")
-    public Result<Void> update(@RequestBody UserUpdateReqDTO userUpdateReqDTO){
+    public Result<Void> update(@RequestBody UserUpdateReqDTO userUpdateReqDTO) {
         userService.update(userUpdateReqDTO);
         return Results.success();
     }
 
     @PostMapping("/api/short-link/admin/v1/user/login")
-    public Result<UserLoginRespDTO> login(@RequestBody UserLoginReqDTO userLoginReqDTO){
+    public Result<UserLoginRespDTO> login(@RequestBody UserLoginReqDTO userLoginReqDTO) {
         UserLoginRespDTO result = userService.login(userLoginReqDTO);
         return Results.success(result);
     }
@@ -90,6 +102,5 @@ public class UserController {
         userService.logout(username, token);
         return Results.success();
     }
-
 
 }

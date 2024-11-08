@@ -3,35 +3,31 @@
     <el-container>
       <el-header height="54px" style="padding: 0">
         <div class="header">
-          <div @click="toMySpace" class="logo">拿个offer-SaaS短链接@马丁</div>
+          <div @click="toMySpace" class="logo">SaaS短链接-lm</div>
           <div style="display: flex; align-items: center">
             <a
               class="link-span"
               style="text-decoration: none"
               target="_blank"
-              href="https://nageoffer.com/shortlink/"
               >官方文档</a
             >
             <a
               class="link-span"
               style="text-decoration: none"
               target="_blank"
-              href="https://nageoffer.com/group/"
-              >加沟通群</a
+              >联系管理</a
             >
             <a
                 class="link-span"
                 style="text-decoration: none"
                 target="_blank"
-                href="https://nageoffer.com/shortlink/video/"
-            >🔥视频教程</a
+            >交流学习</a
             >
             <a
                 class="link-span"
                 style="text-decoration: none"
                 target="_blank"
-                href="http://shortlink.magestack.cn"
-            >演示环境</a
+            >部署使用</a
             >
             <el-dropdown>
               <div class="block">

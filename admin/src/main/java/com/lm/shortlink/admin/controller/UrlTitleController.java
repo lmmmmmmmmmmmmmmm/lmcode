@@ -27,11 +27,11 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * URL 标题控制层
  */
-@RestController
+@RestController(value = "urlTitleControllerByAdmin")
 @RequiredArgsConstructor
 public class UrlTitleController {
 
-    ShortLinkActualRemoteService shortLinkActualRemoteService=new ShortLinkActualRemoteService() {};
+    private final ShortLinkActualRemoteService shortLinkActualRemoteService;
     /**
      * 根据 URL 获取对应网站的标题
      */
